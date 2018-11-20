@@ -1,0 +1,43 @@
+.timeline {
+    width: 100%;
+    overflow-x: auto;
+    background-color: #777777;
+    padding: 2px;
+}
+
+.frame {}
+
+.key {
+    padding: 2px;
+    display: inline-block;
+    border: 2px solid #999999;
+    background: #BBBBBB;
+    width: 16px;
+}
+
+.key.back {
+    position: relative;
+    top: 0;
+    left: 0;
+}
+
+.key.next {
+    position: relative;
+    top: 0;
+    left: 0;
+}
+
+.key-container {
+    display: inline-block;
+}
+
+.key:hover {
+    color: blue;
+    border-color: blue;
+}
+
+.key.active {
+    border-width: 2px;
+    border-color: red;
+    color: red;
+}
