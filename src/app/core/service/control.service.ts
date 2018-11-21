@@ -15,8 +15,6 @@ export class ControlService {
     currentKey: Frame = new Frame();
     index = -1;
     isRunning = false;
-
-
     onChange: BehaviorSubject<ControlService>;
 
     constructor() {
@@ -54,6 +52,7 @@ export class ControlService {
                 this.index = this.keys.length - 1;
             }
             this.currentKey.active = false;
+            this.video.currentFrame = this.index + 1;
             this.currentKey = this.keys[this.index];
         } else {
             this.index = -1;
@@ -62,6 +61,19 @@ export class ControlService {
         if (this.currentKey) {
             this.currentKey.active = true;
         }
+    }
+
+    setKeyWhenRunning(_inx: number = this.index) {
+        if (_inx < 1) {
+            _inx = 1;
+        }
+        if (_inx >= this.keys.length) {
+            _inx = this.keys.length - 1;
+        }
+        this.index = _inx;
+        this.video.currentFrame = this.index;
+        this.timer.start = Date.now() - (this.video.currentFrame * this.video.tickTime || 0);
+        this.timer.end = Date.now();
     }
 
     nextFrame() {
@@ -73,6 +85,7 @@ export class ControlService {
         this.index = this.index - 1;
         this.setKey();
     }
+
     render() {
         this.timer.end = Date.now();
         this.timer.distanceTime = 0;
@@ -92,19 +105,33 @@ export class ControlService {
 
         }
     }
+
+    output() {
+        if (this.currentKey.actions.length > 0) {
+            this.currentKey.actions.forEach(_key => {
+                if (_key.run) {
+                    _key.run();
+                }
+            });
+        }
+    }
+
     tick() {
         this.video.setFrame(this.timer.distanceTime);
         this.setKey(this.video.currentFrame - 1);
-        if (this.video.currentFrame > this.video.frameCount) {
+        if (this.video.currentFrame >= this.video.frameCount) {
+            console.log('end');
             this.isRunning = false;
         }
     }
+
     start() {
         this.isRunning = !this.isRunning;
         if (this.isRunning) {
             requestAnimationFrame(this.render.bind(this));
         }
     }
+
     stop() {
         this.isRunning = false;
         this.index = 0;

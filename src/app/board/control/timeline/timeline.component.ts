@@ -4,18 +4,22 @@ import { ControlService } from 'src/app/core/service/control.service';
 import { Timer } from 'src/app/core/model/timer.model';
 
 @Component({
-  selector: 'app-timeline',
-  templateUrl: './timeline.component.html',
-  styleUrls: ['./timeline.component.css']
+    selector: 'app-timeline',
+    templateUrl: './timeline.component.html',
+    styleUrls: ['./timeline.component.css']
 })
 export class TimelineComponent implements OnInit {
 
-  constructor(public controlService: ControlService) { }
+    constructor(public controlService: ControlService) { }
 
-  ngOnInit() {
-  }
+    ngOnInit() {
+    }
 
-  btnKey(_frame: Frame) {
-    this.controlService.setKey(_frame.index);
-  }
+    btnKey(_frame: Frame) {
+        if (this.controlService.isRunning) {
+            this.controlService.setKeyWhenRunning(_frame.index);
+        } else {
+            this.controlService.setKey(_frame.index);
+        }
+    }
 }
