@@ -1,0 +1,19 @@
+.template-container {
+    position: fixed;
+    top: 0;
+    right: 0;
+    width: 150px;
+    height: 100vh;
+    background: white;
+}
+
+.template-container .template {
+    border: 2px solid black;
+    border-radius:  5px;
+    margin: 10px;
+}
+
+.template-container .template:hover {
+    border-color: blue;
+    cursor: pointer;
+}

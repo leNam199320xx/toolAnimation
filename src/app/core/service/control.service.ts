@@ -4,6 +4,7 @@ import { Frame } from '../model/frame.model';
 import { Video } from '../model/video.model';
 import { BehaviorSubject, Subject } from 'rxjs';
 import { Timer } from '../model/timer.model';
+import { NodeModel } from '../model/node.model';
 
 @Injectable()
 export class ControlService {
@@ -16,13 +17,18 @@ export class ControlService {
     index = -1;
     isRunning = false;
     onChange: BehaviorSubject<ControlService>;
-
+    onGetTemplate: BehaviorSubject<NodeModel>;
+    onChangeFrame: BehaviorSubject<Frame>;
+    onFinishTimer: BehaviorSubject<ControlService>;
     constructor() {
         this.sizeBox.x = 0;
         this.sizeBox.y = 0;
         this.sizeBox.width = 800;
         this.sizeBox.height = 600;
         this.onChange = new BehaviorSubject(this);
+        this.onGetTemplate = new BehaviorSubject(null);
+        this.onChangeFrame = new BehaviorSubject(null);
+        this.onFinishTimer = new BehaviorSubject(null);
     }
 
     settingVideo() {
@@ -107,22 +113,16 @@ export class ControlService {
     }
 
     output() {
-        if (this.currentKey.actions.length > 0) {
-            this.currentKey.actions.forEach(_key => {
-                if (_key.run) {
-                    _key.run();
-                }
-            });
-        }
     }
 
     tick() {
         this.video.setFrame(this.timer.distanceTime);
         this.setKey(this.video.currentFrame - 1);
         if (this.video.currentFrame >= this.video.frameCount) {
-            console.log('end');
             this.isRunning = false;
+            this.onFinishTimer.next(this);
         }
+        this.onChangeFrame.next(this.currentKey);
     }
 
     start() {

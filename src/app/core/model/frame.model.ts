@@ -5,5 +5,5 @@ export class Frame {
     value: number;
     key: string;
     active: boolean;
-    actions: Action[] = [];
+    action: Action;
 }

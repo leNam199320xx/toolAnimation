@@ -11,6 +11,7 @@ import { TimelineComponent } from './board/control/timeline/timeline.component';
 import { SettingComponent } from './board/control/setting/setting.component';
 import { CommonModule } from '@angular/common';
 import { TemplateComponent } from './board/template/template.component';
+import { MouseService } from './core/service/mouse.service';
 
 @NgModule({
   declarations: [
@@ -28,7 +29,7 @@ import { TemplateComponent } from './board/template/template.component';
     FormsModule
   ],
   exports: [CommonModule, FormsModule],
-  providers: [ControlService],
+  providers: [ControlService, MouseService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

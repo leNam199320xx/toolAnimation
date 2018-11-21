@@ -1,31 +1,46 @@
 import { Component, OnInit } from '@angular/core';
 import { ControlService } from 'src/app/core/service/control.service';
+import { MouseService } from 'src/app/core/service/mouse.service';
 
 @Component({
-  selector: 'app-control',
-  templateUrl: './control.component.html',
-  styleUrls: ['./control.component.css']
+    selector: 'app-control',
+    templateUrl: './control.component.html',
+    styleUrls: ['./control.component.css']
 })
 export class ControlComponent implements OnInit {
 
-  constructor(public controlService: ControlService) { }
+    constructor(public controlService: ControlService, private mouseService: MouseService) { }
 
-  ngOnInit() {
-  }
+    ngOnInit() {
+        this.controlService.onChangeFrame.subscribe(res => {
+            if (res) {
+                this.mouseService.displayPoint();
+            }
+        });
 
-  btnNext() {
-    this.controlService.nextFrame();
-  }
+        this.controlService.onFinishTimer.subscribe(res => {
+            if (res) {
+                this.mouseService.enabled = false;
+                this.mouseService.finishNow();
+            }
+        });
+    }
 
-  btnBack() {
-    this.controlService.backFrame();
-  }
+    btnNext() {
+        this.controlService.nextFrame();
+    }
 
-  btnPlay() {
-    this.controlService.start();
-  }
+    btnBack() {
+        this.controlService.backFrame();
+    }
 
-  btnStop() {
-    this.controlService.stop();
-  }
+    btnPlay() {
+        this.controlService.start();
+        this.mouseService.enabled = this.controlService.isRunning;
+    }
+
+    btnStop() {
+        this.controlService.stop();
+        this.mouseService.enabled = this.controlService.isRunning;
+    }
 }

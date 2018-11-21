@@ -1,3 +1,5 @@
-<p>
-  template works!
-</p>
+<div class='template-container'>
+  <div *ngFor="let temp of templateElements" class='template' (click)='btnTemplate(temp)'>
+    {{temp.text}}
+  </div>
+</div>
