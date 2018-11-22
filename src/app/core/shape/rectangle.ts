@@ -21,12 +21,13 @@ export class Rectangle extends AttributeSvg {
 
     updateAttributes() {
         this.setTransform();
-        console.log('update', this.x, this.y);
         this.svgElement.setAttribute('height', '' + this.height);
         this.svgElement.setAttribute('width', '' + this.width);
         this.svgElement.setAttribute('stroke', '' + this.stroke);
         this.svgElement.setAttribute('stroke-width', '' + this.strokeWidth);
         this.svgElement.setAttribute('fill', '' + this.backgroundColor);
         this.svgElement.setAttribute('transform', '' + this.transformString);
+        this.svgElement.setAttribute('opacity', '' + this.opacity);
+        this.svgElement.setAttributeNS('http://www.w3.org/1999/xlink', 'xlink:href', '' + this.src);
     }
 }

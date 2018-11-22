@@ -12,24 +12,26 @@ import { SettingComponent } from './board/control/setting/setting.component';
 import { CommonModule } from '@angular/common';
 import { TemplateComponent } from './board/template/template.component';
 import { MouseService } from './core/service/mouse.service';
+import { ShapeService } from './core/service/shape.service';
+import { ControlContinueService } from './core/service/controlContinue.service';
 
 @NgModule({
-  declarations: [
-    AppComponent,
-    BoardComponent,
-    ViewerComponent,
-    ControlComponent,
-    TimelineComponent,
-    SettingComponent,
-    TemplateComponent
-  ],
-  imports: [
-    BrowserModule,
-    CommonModule,
-    FormsModule
-  ],
-  exports: [CommonModule, FormsModule],
-  providers: [ControlService, MouseService],
-  bootstrap: [AppComponent]
+    declarations: [
+        AppComponent,
+        BoardComponent,
+        ViewerComponent,
+        ControlComponent,
+        TimelineComponent,
+        SettingComponent,
+        TemplateComponent
+    ],
+    imports: [
+        BrowserModule,
+        CommonModule,
+        FormsModule
+    ],
+    exports: [CommonModule, FormsModule],
+    providers: [ControlService, ControlContinueService, MouseService, ShapeService],
+    bootstrap: [AppComponent]
 })
 export class AppModule { }

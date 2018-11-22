@@ -1,4 +1,6 @@
 import { NodeModel } from '../model/node.model';
+import { Finger } from '../model/finger.model';
+import { Circle } from './circle';
 
 export class AttributeSvg {
     x: number;
@@ -9,7 +11,7 @@ export class AttributeSvg {
     skew: number | string;
     deg: number; // rotate value
     src: string;
-    opacity: string;
+    opacity: number;
     height: number;
     width: number;
     fontSize: number;
@@ -18,9 +20,11 @@ export class AttributeSvg {
     stroke: string;
     strokeWidth: number;
     svgElement: SVGCircleElement | SVGRectElement | SVGImageElement;
-
+    svgParentElement: SVGSVGElement;
     transformString: string;
     transforms: NodeModel[];
+
+    fingers: Finger[] = [];
 
     setTransform() {
         const _translateNode = new NodeModel('translate', this.x + ' ' + this.y);

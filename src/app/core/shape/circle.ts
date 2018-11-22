@@ -26,5 +26,6 @@ export class Circle extends AttributeSvg {
         this.svgElement.setAttribute('stroke-width', '' + this.strokeWidth);
         this.svgElement.setAttribute('fill', '' + this.backgroundColor);
         this.svgElement.setAttribute('transform', this.transformString);
+        this.svgElement.setAttribute('opacity', '' + this.opacity);
     }
 }

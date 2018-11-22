@@ -15,10 +15,11 @@ export class ControlService {
     keys: Frame[] = [];
     currentKey: Frame = new Frame();
     index = -1;
+    oldIndex = -1;
     isRunning = false;
     onChange: BehaviorSubject<ControlService>;
     onGetTemplate: BehaviorSubject<NodeModel>;
-    onChangeFrame: BehaviorSubject<Frame>;
+    onChangeFrame: BehaviorSubject<number>;
     onFinishTimer: BehaviorSubject<ControlService>;
     constructor() {
         this.sizeBox.x = 0;
@@ -60,6 +61,10 @@ export class ControlService {
             this.currentKey.active = false;
             this.video.currentFrame = this.index + 1;
             this.currentKey = this.keys[this.index];
+
+            if (this.index !== this.oldIndex) {
+                this.onChangeFrame.next(this.video.currentFrame);
+            }
         } else {
             this.index = -1;
             this.currentKey = new Frame();
@@ -67,6 +72,7 @@ export class ControlService {
         if (this.currentKey) {
             this.currentKey.active = true;
         }
+        this.oldIndex = this.index;
     }
 
     setKeyWhenRunning(_inx: number = this.index) {
@@ -122,7 +128,6 @@ export class ControlService {
             this.isRunning = false;
             this.onFinishTimer.next(this);
         }
-        this.onChangeFrame.next(this.currentKey);
     }
 
     start() {

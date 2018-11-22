@@ -1,7 +1,6 @@
-import { AttributeSvg } from './attribute';
-import { NodeModel } from '../model/node.model';
+import { Rectangle } from './rectangle';
 
-export class Img extends AttributeSvg {
+export class Img extends Rectangle {
     x = 0;
     y = 0;
     height = 40;
@@ -17,13 +16,5 @@ export class Img extends AttributeSvg {
     createSvg() {
         this.svgElement = document.createElementNS('http://www.w3.org/2000/svg', 'image');
         this.updateAttributes();
-    }
-
-    updateAttributes() {
-        this.setTransform();
-        this.svgElement.setAttribute('height', '' + this.height);
-        this.svgElement.setAttribute('width', '' + this.width);
-        this.svgElement.setAttributeNS('http://www.w3.org/1999/xlink', 'xlink:href', '' + this.src);
-        this.svgElement.setAttribute('transform', this.transformString);
     }
 }

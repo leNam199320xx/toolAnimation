@@ -7,6 +7,8 @@ export class Finger {
     point: Circle;
     holdElement: Rectangle | Circle | Img;
     touched: boolean;
+    enabled: boolean;
+    hiddenAfterMove: boolean;
     constructor() {
         this.createDefaultElement();
     }

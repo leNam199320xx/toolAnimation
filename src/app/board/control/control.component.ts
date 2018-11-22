@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ControlService } from 'src/app/core/service/control.service';
 import { MouseService } from 'src/app/core/service/mouse.service';
+import { ControlContinueService } from 'src/app/core/service/controlContinue.service';
 
 @Component({
     selector: 'app-control',
@@ -9,7 +10,11 @@ import { MouseService } from 'src/app/core/service/mouse.service';
 })
 export class ControlComponent implements OnInit {
 
-    constructor(public controlService: ControlService, private mouseService: MouseService) { }
+    constructor(
+        public controlService: ControlService,
+        private mouseService: MouseService,
+        private controlDevService: ControlContinueService
+    ) { }
 
     ngOnInit() {
         this.controlService.onChangeFrame.subscribe(res => {
@@ -20,8 +25,21 @@ export class ControlComponent implements OnInit {
 
         this.controlService.onFinishTimer.subscribe(res => {
             if (res) {
-                this.mouseService.enabled = false;
-                this.mouseService.finishNow();
+                this.stop();
+            }
+        });
+
+        this.controlService.onChangeFrame.subscribe(res => {
+            if (res) {
+                this.mouseService.displayPoint();
+            }
+        });
+
+        this.controlDevService.start();
+
+        this.controlDevService.onChange.subscribe(res => {
+            if (res) {
+                this.mouseService.displayPoint();
             }
         });
     }
@@ -35,12 +53,20 @@ export class ControlComponent implements OnInit {
     }
 
     btnPlay() {
+        this.controlDevService.stop();
         this.controlService.start();
-        this.mouseService.enabled = this.controlService.isRunning;
+        this.mouseService.enabled = true;
     }
 
     btnStop() {
+        this.stop();
+    }
+
+    stop() {
+        this.mouseService.enabled = false;
         this.controlService.stop();
-        this.mouseService.enabled = this.controlService.isRunning;
+        this.mouseService.finishNow();
+        this.controlService.stop();
+        this.controlDevService.start();
     }
 }

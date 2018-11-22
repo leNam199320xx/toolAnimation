@@ -3,29 +3,31 @@ import { Finger } from '../model/finger.model';
 
 @Injectable()
 export class MouseService {
-    points: Finger[] = [];
     currentPoint: Finger;
+    defaultPoint: Finger;
     enabled = false;
     started = false;
     svg: SVGSVGElement;
+    /**
+     * if user want start mouse event then must call setup first and only once
+     * @param _svg svg element
+     */
     setup(_svg: SVGSVGElement) {
         this.svg = _svg;
         this.svg.onmousedown = this.mouseStart.bind(this);
         this.svg.onmousemove = this.mouseMove.bind(this);
         this.svg.onmouseup = this.mouseEnd.bind(this);
-        this.points.forEach(_p => {
-            _p.holdElement.hide();
-        });
-
-        this.currentPoint = new Finger();
-        this.points.push(this.currentPoint);
+        this.defaultPoint = new Finger();
+        this.defaultPoint.enabled = true;
+        this.defaultPoint.hiddenAfterMove = true;
+        this.currentPoint = this.defaultPoint;
         this.svg.appendChild(this.currentPoint.holdElement.svgElement);
     }
 
     mouseStart(_event: MouseEvent) {
         if (this.enabled) {
             this.started = true;
-            if (this.currentPoint) {
+            if (this.currentPoint && this.currentPoint.enabled) {
                 this.currentPoint.touched = true;
                 this.currentPoint.holdElement.show();
             }
@@ -50,10 +52,28 @@ export class MouseService {
         this.started = false;
         if (this.currentPoint) {
             this.currentPoint.touched = false;
-            this.currentPoint.holdElement.hide();
+            if (this.currentPoint.hiddenAfterMove) {
+                this.currentPoint.holdElement.hide();
+            }
+        }
+
+        // this.currentPoint = this.defaultPoint;
+    }
+    /**
+     * start mouse event
+     */
+    start() {
+        this.enabled = true;
+        if (!this.currentPoint) {
+            this.currentPoint = this.defaultPoint;
         }
     }
 
+    /**
+     * set value form position of a element
+     * @param _x position from left
+     * @param _y position from top
+     */
     setPoint(_x = 0, _y = 0) {
         if (this.currentPoint) {
             this.currentPoint.point.x = _x;
@@ -62,9 +82,18 @@ export class MouseService {
         }
     }
 
+    /**
+     * display a element follows mouse
+     * if this object enabled and element enabled and finger touched to this element
+     */
     displayPoint() {
         if (this.enabled && this.currentPoint.touched) {
             this.currentPoint.holdElement.updateAttributes();
         }
+    }
+
+    setPointToDrag(_fin: Finger) {
+        this.currentPoint = _fin;
+        this.currentPoint.enabled = true;
     }
 }
