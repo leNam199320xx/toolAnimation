@@ -7,8 +7,10 @@ import { BehaviorSubject } from 'rxjs';
 export class ShapeControls {
     shape: Img | Rectangle | Circle;
     controls: Finger[] = [];
+    mainControl: Finger;
     selectedControl: Finger;
     onSelect: BehaviorSubject<Finger> = new BehaviorSubject(null);
+    mode: number;
     createCircleControl() {
         const _fin = new Finger();
         const _cir = new Circle();
@@ -22,6 +24,11 @@ export class ShapeControls {
         return _fin;
     }
 
+    createMainControl() {
+        this.mainControl = new Finger();
+        this.mainControl.holdElement = this.shape;
+    }
+
     createControlsForRect() {
         const _fin1 = this.createCircleControl();
         const _fin2 = this.createCircleControl();
@@ -29,15 +36,28 @@ export class ShapeControls {
         const _fin4 = this.createCircleControl();
         this.controls = [_fin1, _fin2, _fin3, _fin4];
         this.updateRectAttributes();
+        this.createMainControl();
         this.addEvents();
+        this.mode = 0;
         return this.controls;
     }
+
     createControlsForCircle() {
         const _fin1 = this.createCircleControl();
         this.controls = [_fin1];
         this.updateCircleAttributes();
+        this.createMainControl();
         this.addEvents();
+        this.mode = 1;
         return this.controls;
+    }
+
+    updateAttributes() {
+        if (this.mode === 0) {
+            this.updateRectAttributes();
+        } else if (this.mode === 1) {
+            this.updateCircleAttributes();
+        }
     }
 
     updateCircleAttributes() {
@@ -62,11 +82,17 @@ export class ShapeControls {
     }
 
     addEvents() {
+        let _ind = 0;
         this.controls.forEach(_fin => {
-            _fin.holdElement.svgElement.onclick = function () {
+            _ind++;
+            _fin.holdElement.name = 'c_' + _ind;
+            _fin.holdElement.svgElement.onmousedown = function () {
                 this.clickToControl(_fin);
             }.bind(this);
         });
+        this.mainControl.holdElement.svgElement.onmousedown = function () {
+            this.onSelect.next(this.mainControl);
+        }.bind(this);
     }
 
     clickToControl($target) {

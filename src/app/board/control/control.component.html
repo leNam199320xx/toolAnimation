@@ -6,6 +6,14 @@
     <button>Mute</button>
     <button (click)="btnBack()">Back</button>
     <button (click)="btnNext()">Next</button>
+    <button (click)="btnEdit()">Edit</button>
   </div>
-  <app-setting></app-setting>
+  <div class='settings'>
+    <div class='setting-col'>
+      <app-setting></app-setting>
+    </div>
+    <div class='setting-col'>
+      <app-shape></app-shape>
+    </div>
+  </div>
 </div>

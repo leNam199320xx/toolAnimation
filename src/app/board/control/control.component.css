@@ -6,3 +6,12 @@
     background-color: white;
     padding: 10px;
 }
+
+.control .settings {
+    display: flex;
+}
+
+.control .settings .setting-col {
+    width: 50%;
+    display: inline-block;
+}

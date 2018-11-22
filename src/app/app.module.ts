@@ -14,6 +14,7 @@ import { TemplateComponent } from './board/template/template.component';
 import { MouseService } from './core/service/mouse.service';
 import { ShapeService } from './core/service/shape.service';
 import { ControlContinueService } from './core/service/controlContinue.service';
+import { ShapeComponent } from './board/control/shape/shape.component';
 
 @NgModule({
     declarations: [
@@ -23,7 +24,8 @@ import { ControlContinueService } from './core/service/controlContinue.service';
         ControlComponent,
         TimelineComponent,
         SettingComponent,
-        TemplateComponent
+        TemplateComponent,
+        ShapeComponent
     ],
     imports: [
         BrowserModule,

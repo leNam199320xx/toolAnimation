@@ -16,6 +16,7 @@ export class ControlContinueService {
     constructor() {
         this.onChange = new BehaviorSubject(null);
         this.onStop = new BehaviorSubject(null);
+        this.video.frameRate = 60;
         this.video.setting();
     }
 

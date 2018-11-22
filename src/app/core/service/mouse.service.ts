@@ -1,13 +1,18 @@
 import { Injectable } from '@angular/core';
 import { Finger } from '../model/finger.model';
+import { BehaviorSubject } from 'rxjs';
 
 @Injectable()
 export class MouseService {
     currentPoint: Finger;
     defaultPoint: Finger;
+    tempPoint: Finger;
     enabled = false;
     started = false;
+    isTemp = false;
     svg: SVGSVGElement;
+    onMove: BehaviorSubject<boolean> = new BehaviorSubject(null);
+    onEnd: BehaviorSubject<boolean> = new BehaviorSubject(null);
     /**
      * if user want start mouse event then must call setup first and only once
      * @param _svg svg element
@@ -27,6 +32,11 @@ export class MouseService {
     mouseStart(_event: MouseEvent) {
         if (this.enabled) {
             this.started = true;
+            if (this.isTemp) {
+                this.currentPoint = this.tempPoint;
+            } else {
+                this.currentPoint = this.defaultPoint;
+            }
             if (this.currentPoint && this.currentPoint.enabled) {
                 this.currentPoint.touched = true;
                 this.currentPoint.holdElement.show();
@@ -50,14 +60,14 @@ export class MouseService {
 
     finishNow() {
         this.started = false;
+        this.isTemp = false;
         if (this.currentPoint) {
             this.currentPoint.touched = false;
             if (this.currentPoint.hiddenAfterMove) {
                 this.currentPoint.holdElement.hide();
             }
         }
-
-        // this.currentPoint = this.defaultPoint;
+        this.onEnd.next(true);
     }
     /**
      * start mouse event
@@ -67,6 +77,13 @@ export class MouseService {
         if (!this.currentPoint) {
             this.currentPoint = this.defaultPoint;
         }
+    }
+
+    stop() {
+        this.enabled = false;
+        this.currentPoint = this.defaultPoint;
+        this.defaultPoint.enabled = false;
+        this.defaultPoint.touched = false;
     }
 
     /**
@@ -89,11 +106,13 @@ export class MouseService {
     displayPoint() {
         if (this.enabled && this.currentPoint.touched) {
             this.currentPoint.holdElement.updateAttributes();
+            this.onMove.next(true);
         }
     }
 
     setPointToDrag(_fin: Finger) {
-        this.currentPoint = _fin;
-        this.currentPoint.enabled = true;
+        this.tempPoint = _fin;
+        this.tempPoint.enabled = true;
+        this.isTemp = true;
     }
 }

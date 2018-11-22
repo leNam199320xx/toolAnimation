@@ -7,6 +7,7 @@ export class AttributeSvg {
     y: number;
     r: number;
     d: number;
+    name: string;
     scale: number | string;
     skew: number | string;
     deg: number; // rotate value

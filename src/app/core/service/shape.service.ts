@@ -14,25 +14,32 @@ export class ShapeService {
     startY = 0;
     listShapeControls: ShapeControls[] = [];
     onSelectControl: BehaviorSubject<Finger> = new BehaviorSubject(null);
+    onSelectShape: BehaviorSubject<ShapeControls> = new BehaviorSubject(null);
+    selectedShape: ShapeControls;
+    selectedControl: Finger;
+    index = 0;
     addElement(_node: NodeModel) {
+        this.index++;
+        let _shape: Rectangle | Img | Circle;
         if (this.svg) {
             if (_node.text === 'rect') {
-                const _re = new Rectangle();
-                this.svg.appendChild(_re.svgElement);
-                this.addFingersRect(_re);
+                _shape = new Rectangle();
+                this.svg.appendChild(_shape.svgElement);
+                this.addFingersRect(_shape);
             }
 
             if (_node.text === 'circle') {
-                const _re = new Circle();
-                this.svg.appendChild(_re.svgElement);
-                this.addFingersCircle(_re);
+                _shape = new Circle();
+                this.svg.appendChild(_shape.svgElement);
+                this.addFingersCircle(_shape);
             }
 
             if (_node.text.indexOf('image') > - 1) {
-                const _re = new Img();
-                this.svg.appendChild(_re.svgElement);
-                this.addFingersRect(_re);
+                _shape = new Img();
+                this.svg.appendChild(_shape.svgElement);
+                this.addFingersRect(_shape);
             }
+            _shape.name = _node.text + '_' + this.index;
         }
     }
 
@@ -53,7 +60,12 @@ export class ShapeService {
         });
 
         shapeControls.onSelect.subscribe(res => {
-            this.onSelectControl.next(res);
+            if (res) {
+                this.onSelectControl.next(res);
+                this.onSelectShape.next(shapeControls);
+                this.selectedControl = res;
+                this.selectedShape = shapeControls;
+            }
         });
     }
 
