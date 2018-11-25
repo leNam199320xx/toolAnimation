@@ -6,11 +6,9 @@ import { ControlService } from 'src/app/core/service/control.service';
   templateUrl: './setting.component.html',
   styleUrls: ['./setting.component.css']
 })
-export class SettingComponent implements OnInit {
+export class SettingComponent {
   constructor(public controlService: ControlService) { }
 
-  ngOnInit() {
-  }
   btnLoad() {
     this.controlService.settingVideo();
   }

@@ -1,0 +1,10 @@
+.left-control {
+    top: 0;
+    left: 0;
+    position: fixed;
+    background: bisque;
+}
+
+.left-control button.active{
+    color: red;
+}

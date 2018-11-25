@@ -1,0 +1,4 @@
+<div class='left-control'>
+  <button [ngClass]="{'active': shapeService.controlLeftMode === 1}" (click)="btnMove()">Move</button>
+  <button [ngClass]="{'active': shapeService.controlLeftMode === 2}" (click)="btnResize()">Resize</button>
+</div>

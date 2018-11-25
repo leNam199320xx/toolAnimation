@@ -8,7 +8,7 @@ export class Box {
     width: number;
     points: Point[] = [];
 
-    setPoints() {
+    setPositionForFingers() {
         this.points = [];
         const _p1 = new Point();
         _p1.x = this.x;

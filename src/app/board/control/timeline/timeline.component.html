@@ -2,7 +2,7 @@
   <div class="frame">
     <!-- <div class="key back" (click)="btnBack()">..</div> -->
     <div class="key-container" [ngStyle]="{'width': (controlService.video.frameCount * 16) + 'px'}">
-      <ng-container *ngFor="let k of controlService.keys">
+      <ng-container *ngFor="let k of controlService.keyframes">
         <div class="key" [ngClass]="{'active': k.active}" (click)="btnKey(k)">+</div>
       </ng-container>
     </div>

@@ -8,13 +8,13 @@ export class ControlContinueService {
     timer = new Timer();
     video = new Video();
     isRunning = false;
-    onChange: BehaviorSubject<number>;
+    onChangeFrame: BehaviorSubject<number>;
     onStop: BehaviorSubject<boolean>;
     oldFrame = -1;
     index = 0;
 
     constructor() {
-        this.onChange = new BehaviorSubject(null);
+        this.onChangeFrame = new BehaviorSubject(null);
         this.onStop = new BehaviorSubject(null);
         this.video.frameRate = 60;
         this.video.setting();
@@ -34,9 +34,9 @@ export class ControlContinueService {
     }
 
     tick() {
-        this.video.setFrame(this.timer.distanceTime);
+        this.video.calculateFrame(this.timer.distanceTime);
         if (this.oldFrame !== this.video.currentFrame) {
-            this.onChange.next(this.video.currentFrame);
+            this.onChangeFrame.next(this.video.currentFrame);
         }
         this.oldFrame = this.video.currentFrame;
         this.index = requestAnimationFrame(this.render.bind(this));

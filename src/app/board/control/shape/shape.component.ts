@@ -12,22 +12,18 @@ import { ShapeControls } from 'src/app/core/shape/shapeControls';
     templateUrl: './shape.component.html',
     styleUrls: ['./shape.component.css']
 })
-export class ShapeComponent implements OnInit {
+export class ShapeComponent {
 
     shapeControls: ShapeControls;
     constructor(
         public controlService: ControlService,
         public controlDevService: ControlContinueService,
-        private shapeService: ShapeService
+        public shapeService: ShapeService
     ) {
-    }
-
-    ngOnInit() {
         this.shapeService.onSelectShape.subscribe(res => {
             if (res) {
                 this.shapeControls = res;
             }
         });
     }
-
 }

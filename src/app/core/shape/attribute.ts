@@ -20,12 +20,23 @@ export class AttributeSvg {
     backgroundColor: string;
     stroke: string;
     strokeWidth: number;
-    svgElement: SVGCircleElement | SVGRectElement | SVGImageElement;
+    element: SVGCircleElement | SVGRectElement | SVGImageElement;
     svgParentElement: SVGSVGElement;
     transformString: string;
     transforms: NodeModel[];
 
     fingers: Finger[] = [];
+    minSize = [10, 10];
+
+    updatePosition(_x: number, _y: number) {
+        this.x = _x || 0;
+        this.y = _y || 0;
+    }
+
+    updateSize(_width = this.minSize[0], _height = this.minSize[1]) {
+        this.width = _width > this.minSize[0] ? _width : this.minSize[0];
+        this.height = _height > this.minSize[1] ? _height : this.minSize[2];
+    }
 
     setTransform() {
         const _translateNode = new NodeModel('translate', this.x + ' ' + this.y);
@@ -45,10 +56,10 @@ export class AttributeSvg {
     }
 
     hide() {
-        this.svgElement.style.visibility = 'hidden';
+        this.element.style.visibility = 'hidden';
     }
 
     show() {
-        this.svgElement.style.visibility = 'visible';
+        this.element.style.visibility = 'visible';
     }
 }

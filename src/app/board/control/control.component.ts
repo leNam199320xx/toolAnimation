@@ -22,34 +22,30 @@ export class ControlComponent implements OnInit {
     }
 
     ngOnInit() {
-        // update mouse in game when move real mouse
-        this.controlService.onChangeFrame.subscribe(res => {
-            if (res) {
-                this.mouseService.displayPoint();
-            }
-        });
-
-        // update layout for controls of shape
-        // this.mouseService.onMove.subscribe(res => {
-        // });
-
         this.mouseService.onEnd.subscribe(res => {
             if (res) {
                 this.shapeService.selectedShape = null;
             }
         });
         // swhen game timer stop
-        this.controlService.onFinishTimer.subscribe(res => {
+        this.controlService.onEnd.subscribe(res => {
             if (res) {
                 this.stop();
             }
         });
 
-        this.controlDevService.onChange.subscribe(res => {
+        // update mouse in game when move real mouse
+        this.controlService.onChangeFrame.subscribe(res => {
             if (res) {
-                this.mouseService.displayPoint();
+                this.mouseService.showFinger();
+            }
+        });
+
+        this.controlDevService.onChangeFrame.subscribe(res => {
+            if (res) {
+                this.mouseService.showFinger();
                 if (this.shapeService.selectedShape) {
-                    this.shapeService.selectedShape.updateAttributes();
+                    this.shapeService.updateShape();
                 }
             }
         });
@@ -66,7 +62,6 @@ export class ControlComponent implements OnInit {
     btnPlay() {
         this.controlDevService.stop();
         this.controlService.start();
-        this.mouseService.enabled = true;
     }
 
     btnStop() {

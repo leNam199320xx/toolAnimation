@@ -4,13 +4,14 @@ import { BehaviorSubject } from 'rxjs';
 
 @Injectable()
 export class MouseService {
-    currentPoint: Finger;
-    defaultPoint: Finger;
-    tempPoint: Finger;
+    currentFinger: Finger;
+    defaultFinger: Finger;
+    tempFinger: Finger;
     enabled = false;
     started = false;
     isTemp = false;
     svg: SVGSVGElement;
+    onStart: BehaviorSubject<boolean> = new BehaviorSubject(null);
     onMove: BehaviorSubject<boolean> = new BehaviorSubject(null);
     onEnd: BehaviorSubject<boolean> = new BehaviorSubject(null);
     /**
@@ -22,49 +23,56 @@ export class MouseService {
         this.svg.onmousedown = this.mouseStart.bind(this);
         this.svg.onmousemove = this.mouseMove.bind(this);
         this.svg.onmouseup = this.mouseEnd.bind(this);
-        this.defaultPoint = new Finger();
-        this.defaultPoint.enabled = true;
-        this.defaultPoint.hiddenAfterMove = true;
-        this.currentPoint = this.defaultPoint;
-        this.svg.appendChild(this.currentPoint.holdElement.svgElement);
+        this.createDefaultFinger();
+        this.svg.appendChild(this.currentFinger.holdElement.element);
     }
 
-    mouseStart(_event: MouseEvent) {
+    private createDefaultFinger() {
+        this.defaultFinger = new Finger();
+        this.defaultFinger.enabled = true;
+        this.defaultFinger.hiddenAfterMove = true;
+        this.currentFinger = this.defaultFinger;
+    }
+
+    private mouseStart(_event: MouseEvent) {
         if (this.enabled) {
             this.started = true;
             if (this.isTemp) {
-                this.currentPoint = this.tempPoint;
+                this.currentFinger = this.tempFinger;
             } else {
-                this.currentPoint = this.defaultPoint;
+                this.currentFinger = this.defaultFinger;
             }
-            if (this.currentPoint && this.currentPoint.enabled) {
-                this.currentPoint.touched = true;
-                this.currentPoint.holdElement.show();
+            if (this.currentFinger && this.currentFinger.enabled) {
+                this.currentFinger.touched = true;
+                this.currentFinger.holdElement.show();
             }
-            this.setPoint(_event.offsetX, _event.offsetY);
+            this.setPositionForFinger(_event.offsetX, _event.offsetY);
+            // this.onStart.next(true);
         }
     }
 
-    mouseMove(_event: MouseEvent) {
+    private mouseMove(_event: MouseEvent) {
         if (this.started) {
-            this.setPoint(_event.offsetX, _event.offsetY);
+            this.setPositionForFinger(_event.offsetX, _event.offsetY);
+            // this.onMove.next(true);
         }
     }
 
-    mouseEnd(_event: MouseEvent) {
+    private mouseEnd(_event: MouseEvent) {
         if (this.started) {
-            this.setPoint(_event.offsetX, _event.offsetY);
+            this.setPositionForFinger(_event.offsetX, _event.offsetY);
+            this.finishNow();
+            this.onEnd.next(true);
         }
-        this.finishNow();
     }
 
     finishNow() {
         this.started = false;
         this.isTemp = false;
-        if (this.currentPoint) {
-            this.currentPoint.touched = false;
-            if (this.currentPoint.hiddenAfterMove) {
-                this.currentPoint.holdElement.hide();
+        if (this.currentFinger) {
+            this.currentFinger.touched = false;
+            if (this.currentFinger.hiddenAfterMove) {
+                this.currentFinger.holdElement.hide();
             }
         }
         this.onEnd.next(true);
@@ -74,16 +82,20 @@ export class MouseService {
      */
     start() {
         this.enabled = true;
-        if (!this.currentPoint) {
-            this.currentPoint = this.defaultPoint;
+        if (!this.currentFinger) {
+            this.currentFinger = this.defaultFinger;
         }
     }
-
+    /**
+     * Stop now
+     */
     stop() {
         this.enabled = false;
-        this.currentPoint = this.defaultPoint;
-        this.defaultPoint.enabled = false;
-        this.defaultPoint.touched = false;
+        this.started = false;
+        this.currentFinger.enabled = false;
+        this.currentFinger.touched = false;
+        this.defaultFinger.enabled = false;
+        this.defaultFinger.touched = false;
     }
 
     /**
@@ -91,11 +103,11 @@ export class MouseService {
      * @param _x position from left
      * @param _y position from top
      */
-    setPoint(_x = 0, _y = 0) {
-        if (this.currentPoint) {
-            this.currentPoint.point.x = _x;
-            this.currentPoint.point.y = _y;
-            this.currentPoint.mapPointAndElement();
+    setPositionForFinger(_x = 0, _y = 0) {
+        if (this.currentFinger) {
+            this.currentFinger.point.x = _x;
+            this.currentFinger.point.y = _y;
+            this.currentFinger.mapFingerAndElement();
         }
     }
 
@@ -103,16 +115,17 @@ export class MouseService {
      * display a element follows mouse
      * if this object enabled and element enabled and finger touched to this element
      */
-    displayPoint() {
-        if (this.enabled && this.currentPoint.touched) {
-            this.currentPoint.holdElement.updateAttributes();
+    showFinger() {
+        if (this.enabled && this.started
+            && this.currentFinger.touched && this.currentFinger.enabled) {
+            this.currentFinger.holdElement.updateLayout();
             this.onMove.next(true);
         }
     }
 
-    setPointToDrag(_fin: Finger) {
-        this.tempPoint = _fin;
-        this.tempPoint.enabled = true;
+    setFingerToDrag(_fin: Finger) {
+        this.tempFinger = _fin;
+        this.tempFinger.enabled = true;
         this.isTemp = true;
     }
 }

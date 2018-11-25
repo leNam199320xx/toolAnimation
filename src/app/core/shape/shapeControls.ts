@@ -3,15 +3,19 @@ import { Rectangle } from './rectangle';
 import { Circle } from './circle';
 import { Finger } from '../model/finger.model';
 import { BehaviorSubject } from 'rxjs';
+import { ShapeMode } from '../enum/shapeMode';
+import { RectCorner } from '../enum/RectCorner';
+import { FingerType } from '../enum/FingerType';
 
 export class ShapeControls {
     shape: Img | Rectangle | Circle;
     controls: Finger[] = [];
-    mainControl: Finger;
-    selectedControl: Finger;
-    onSelect: BehaviorSubject<Finger> = new BehaviorSubject(null);
-    mode: number;
-    createCircleControl() {
+    shapeControl: Finger;
+    onSelectFinger: BehaviorSubject<Finger> = new BehaviorSubject(null);
+    mode: ShapeMode;
+    minSize = [10, 10];
+    selectedFinger: Finger;
+    private createOneCircle() {
         const _fin = new Finger();
         const _cir = new Circle();
         _cir.opacity = 0.5;
@@ -21,83 +25,90 @@ export class ShapeControls {
         _cir.r = 10;
         _cir.show();
         _fin.holdElement = _cir;
+        _fin.type = FingerType.control;
         return _fin;
     }
 
-    createMainControl() {
-        this.mainControl = new Finger();
-        this.mainControl.holdElement = this.shape;
+    private createControl() {
+        this.shapeControl = new Finger();
+        this.shapeControl.holdElement = this.shape;
     }
 
     createControlsForRect() {
-        const _fin1 = this.createCircleControl();
-        const _fin2 = this.createCircleControl();
-        const _fin3 = this.createCircleControl();
-        const _fin4 = this.createCircleControl();
+        const _fin1 = this.createOneCircle();
+        const _fin2 = this.createOneCircle();
+        const _fin3 = this.createOneCircle();
+        const _fin4 = this.createOneCircle();
         this.controls = [_fin1, _fin2, _fin3, _fin4];
-        this.updateRectAttributes();
-        this.createMainControl();
+        this.updateLayoutForRect();
+        this.createControl();
         this.addEvents();
-        this.mode = 0;
         return this.controls;
     }
 
     createControlsForCircle() {
-        const _fin1 = this.createCircleControl();
+        const _fin1 = this.createOneCircle();
         this.controls = [_fin1];
-        this.updateCircleAttributes();
-        this.createMainControl();
+        this.updateLayoutForCircle();
+        this.createControl();
         this.addEvents();
-        this.mode = 1;
         return this.controls;
     }
 
-    updateAttributes() {
-        if (this.mode === 0) {
-            this.updateRectAttributes();
-        } else if (this.mode === 1) {
-            this.updateCircleAttributes();
+    updateLayout(_inx = null) {
+        if (this.mode === ShapeMode.Rect) {
+            this.updateLayoutForRect(_inx);
+        } else if (this.mode === ShapeMode.Circle) {
+            this.updateLayoutForCircle();
         }
     }
 
-    updateCircleAttributes() {
-        this.controls[0].holdElement.x = this.shape.x + this.shape.r;
-        this.controls[0].holdElement.y = this.shape.y;
-        this.controls[0].holdElement.updateAttributes();
+    updateLayoutForCircle() {
+        this.controls[0].holdElement.updatePosition(this.shape.x, this.shape.y);
+        this.controls[0].holdElement.updateLayout();
     }
 
-    updateRectAttributes() {
-        this.controls[0].holdElement.x = this.shape.x - this.shape.width / 2;
-        this.controls[0].holdElement.y = this.shape.y - this.shape.height / 2;
-        this.controls[1].holdElement.x = this.shape.x + this.shape.width / 2;
-        this.controls[1].holdElement.y = this.shape.y - this.shape.height / 2;
-        this.controls[2].holdElement.x = this.shape.x + this.shape.width / 2;
-        this.controls[2].holdElement.y = this.shape.y + this.shape.height / 2;
-        this.controls[3].holdElement.x = this.shape.x - this.shape.width / 2;
-        this.controls[3].holdElement.y = this.shape.y + this.shape.height / 2;
-        this.controls[0].holdElement.updateAttributes();
-        this.controls[1].holdElement.updateAttributes();
-        this.controls[2].holdElement.updateAttributes();
-        this.controls[3].holdElement.updateAttributes();
+    updateSize(_width = 10, _height = 10) {
+        this.shape.width = _width < 10 ? this.minSize[0] : _width;
+        this.shape.height = _height < 10 ? this.minSize[1] : _height;
     }
 
-    addEvents() {
+    updatePosition(_x: number, _y: number) {
+        this.shape.x = _x || 0;
+        this.shape.y = _y || 0;
+    }
+
+    updateLayoutForRect(_inx: number = null) {
+        this.controls[0].holdElement.updatePosition(this.shape.x - this.shape.width / 2, this.shape.y - this.shape.height / 2);
+        this.controls[0].holdElement.updateLayout();
+        this.controls[1].holdElement.updatePosition(this.shape.x + this.shape.width / 2, this.shape.y - this.shape.height / 2);
+        this.controls[1].holdElement.updateLayout();
+        this.controls[2].holdElement.updatePosition(this.shape.x + this.shape.width / 2, this.shape.y + this.shape.height / 2);
+        this.controls[2].holdElement.updateLayout();
+        this.controls[3].holdElement.updatePosition(this.shape.x - this.shape.width / 2, this.shape.y + this.shape.height / 2);
+        this.controls[3].holdElement.updateLayout();
+        this.shape.updateLayout();
+    }
+
+    private clickToControl($target) {
+        this.onSelectFinger.next($target);
+        this.selectedFinger = $target;
+    }
+
+    private addEvents() {
         let _ind = 0;
+        const rectCorners: RectCorner[] = [RectCorner.top_left, RectCorner.top_right, RectCorner.bottom_left, RectCorner.bottom_right];
         this.controls.forEach(_fin => {
-            _ind++;
-            _fin.holdElement.name = 'c_' + _ind;
-            _fin.holdElement.svgElement.onmousedown = function () {
+            _fin.index = rectCorners[_ind];
+            _fin.holdElement.name = 'c_' + rectCorners[_ind];
+            _fin.holdElement.element.onmousedown = () => {
                 this.clickToControl(_fin);
-            }.bind(this);
+            };
+            _ind++;
         });
-        this.mainControl.holdElement.svgElement.onmousedown = function () {
-            this.onSelect.next(this.mainControl);
-        }.bind(this);
+        this.shapeControl.type = FingerType.shape;
+        this.shapeControl.holdElement.element.onmousedown = () => {
+            this.onSelectFinger.next(this.shapeControl);
+        };
     }
-
-    clickToControl($target) {
-        this.selectedControl = $target;
-        this.onSelect.next($target);
-    }
-
 }

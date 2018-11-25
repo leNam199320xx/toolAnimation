@@ -1,6 +1,7 @@
 import { Circle } from '../shape/circle';
 import { Img } from '../shape/img';
 import { Rectangle } from '../shape/rectangle';
+import { FingerType } from '../enum/FingerType';
 
 export class Finger {
     index: number;
@@ -9,6 +10,9 @@ export class Finger {
     touched: boolean;
     enabled: boolean;
     hiddenAfterMove: boolean;
+    distanceX: number;
+    distanceY: number;
+    type: FingerType;
     constructor() {
         this.createDefaultElement();
     }
@@ -19,8 +23,12 @@ export class Finger {
         this.touched = false;
         this.holdElement.hide();
     }
-    mapPointAndElement() {
-        this.holdElement.x = this.point.x;
-        this.holdElement.y = this.point.y;
+    mapFingerAndElement() {
+        this.distanceX = this.point.x - this.holdElement.x;
+        this.distanceY = this.point.y - this.holdElement.y;
+        this.holdElement.updatePosition(this.point.x, this.point.y);
+    }
+    updateLayout() {
+        this.holdElement.updateLayout();
     }
 }

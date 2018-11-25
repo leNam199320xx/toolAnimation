@@ -15,6 +15,7 @@ import { MouseService } from './core/service/mouse.service';
 import { ShapeService } from './core/service/shape.service';
 import { ControlContinueService } from './core/service/controlContinue.service';
 import { ShapeComponent } from './board/control/shape/shape.component';
+import { LeftControlComponent } from './board/left-control/left-control.component';
 
 @NgModule({
     declarations: [
@@ -25,7 +26,8 @@ import { ShapeComponent } from './board/control/shape/shape.component';
         TimelineComponent,
         SettingComponent,
         TemplateComponent,
-        ShapeComponent
+        ShapeComponent,
+        LeftControlComponent
     ],
     imports: [
         BrowserModule,

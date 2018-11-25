@@ -10,11 +10,11 @@ export class Img extends Rectangle {
     scale = 1;
     constructor() {
         super();
-        this.createSvg();
+        this.Create();
     }
 
-    createSvg() {
-        this.svgElement = document.createElementNS('http://www.w3.org/2000/svg', 'image');
-        this.updateAttributes();
+    Create() {
+        this.element = document.createElementNS('http://www.w3.org/2000/svg', 'image');
+        this.updateLayout();
     }
 }

@@ -14,7 +14,7 @@ export class Video {
         this.frameCount = Math.ceil(this.endTime / this.tickTime);
     }
 
-    setFrame(_distanceTime: number) {
+    calculateFrame(_distanceTime: number) {
         if (_distanceTime && _distanceTime >= 0) {
             this.currentFrame = Math.ceil(_distanceTime / this.tickTime);
             this.isPlay = this.currentFrame < this.frameCount;

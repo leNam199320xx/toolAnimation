@@ -11,23 +11,23 @@ export class Rectangle extends AttributeSvg {
     scale = 1;
     constructor() {
         super();
-        this.createSvg();
+        this.Create();
     }
 
-    createSvg() {
-        this.svgElement = document.createElementNS('http://www.w3.org/2000/svg', 'rect');
-        this.updateAttributes();
+    Create() {
+        this.element = document.createElementNS('http://www.w3.org/2000/svg', 'rect');
+        this.updateLayout();
     }
 
-    updateAttributes() {
+    updateLayout() {
         this.setTransform();
-        this.svgElement.setAttribute('height', '' + this.height);
-        this.svgElement.setAttribute('width', '' + this.width);
-        this.svgElement.setAttribute('stroke', '' + this.stroke);
-        this.svgElement.setAttribute('stroke-width', '' + this.strokeWidth);
-        this.svgElement.setAttribute('fill', '' + this.backgroundColor);
-        this.svgElement.setAttribute('transform', '' + this.transformString);
-        this.svgElement.setAttribute('opacity', '' + this.opacity);
-        this.svgElement.setAttributeNS('http://www.w3.org/1999/xlink', 'xlink:href', '' + this.src);
+        this.element.setAttribute('height', '' + this.height);
+        this.element.setAttribute('width', '' + this.width);
+        this.element.setAttribute('stroke', '' + this.stroke);
+        this.element.setAttribute('stroke-width', '' + this.strokeWidth);
+        this.element.setAttribute('fill', '' + this.backgroundColor);
+        this.element.setAttribute('transform', '' + this.transformString);
+        this.element.setAttribute('opacity', '' + this.opacity);
+        this.element.setAttributeNS('http://www.w3.org/1999/xlink', 'xlink:href', '' + this.src);
     }
 }

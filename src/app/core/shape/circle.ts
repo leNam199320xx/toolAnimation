@@ -7,25 +7,25 @@ export class Circle extends AttributeSvg {
     r = 10;
     constructor() {
         super();
-        this.createSvg();
+        this.Create();
     }
 
-    createSvg() {
-        this.svgElement = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
-        this.updateAttributes();
+    Create() {
+        this.element = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
+        this.updateLayout();
     }
 
-    updateAttributes() {
+    updateLayout() {
         this.height = undefined;
         this.width = undefined;
         this.setTransform();
-        this.svgElement.setAttribute('rx', '' + this.x);
-        this.svgElement.setAttribute('ry', '' + this.y);
-        this.svgElement.setAttribute('r', '' + (this.r || this.d / 2));
-        this.svgElement.setAttribute('stroke', '' + this.stroke);
-        this.svgElement.setAttribute('stroke-width', '' + this.strokeWidth);
-        this.svgElement.setAttribute('fill', '' + this.backgroundColor);
-        this.svgElement.setAttribute('transform', this.transformString);
-        this.svgElement.setAttribute('opacity', '' + this.opacity);
+        this.element.setAttribute('rx', '' + this.x);
+        this.element.setAttribute('ry', '' + this.y);
+        this.element.setAttribute('r', '' + (this.r || this.d / 2));
+        this.element.setAttribute('stroke', '' + this.stroke);
+        this.element.setAttribute('stroke-width', '' + this.strokeWidth);
+        this.element.setAttribute('fill', '' + this.backgroundColor);
+        this.element.setAttribute('transform', this.transformString);
+        this.element.setAttribute('opacity', '' + this.opacity);
     }
 }
