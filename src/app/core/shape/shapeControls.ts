@@ -69,8 +69,8 @@ export class ShapeControls {
     }
 
     updateSize(_width = 10, _height = 10) {
-        this.shape.width = _width < 10 ? this.minSize[0] : _width;
-        this.shape.height = _height < 10 ? this.minSize[1] : _height;
+        this.shape.width = _width < this.minSize[0] ? this.minSize[0] : _width;
+        this.shape.height = _height < this.minSize[1] ? this.minSize[1] : _height;
     }
 
     updatePosition(_x: number, _y: number) {
@@ -97,7 +97,7 @@ export class ShapeControls {
 
     private addEvents() {
         let _ind = 0;
-        const rectCorners: RectCorner[] = [RectCorner.top_left, RectCorner.top_right, RectCorner.bottom_left, RectCorner.bottom_right];
+        const rectCorners: RectCorner[] = [RectCorner.top_left, RectCorner.top_right, RectCorner.bottom_right, RectCorner.bottom_left];
         this.controls.forEach(_fin => {
             _fin.index = rectCorners[_ind];
             _fin.holdElement.name = 'c_' + rectCorners[_ind];

@@ -51,19 +51,32 @@ export class ShapeService {
 
     updateShape() {
         if (this.selectedShape) {
+            const x1 = this.selectedFinger.point.x;
+            const y1 = this.selectedFinger.point.y;
             if (this.selectedFinger
                 && this.selectedFinger.type === FingerType.control
                 && this.controlLeftMode === ControlLeftMode.resize) {
                 if (this.selectedShape.mode === ShapeMode.Rect) {
                     if (this.selectedFinger.index === RectCorner.top_left) {
-                        this.selectedShape.updateSize(
-                            this.selectedShape.shape.width - this.selectedFinger.distanceX,
-                            this.selectedShape.shape.height - this.selectedFinger.distanceY
-                        );
-                        this.selectedShape.updatePosition(
-                            this.selectedShape.shape.x + this.selectedFinger.distanceX / 2,
-                            this.selectedShape.shape.y + this.selectedFinger.distanceY / 2
-                        );
+                        const x2 = this.selectedShape.shape.width / 2 + this.selectedShape.shape.x;
+                        const y2 = this.selectedShape.shape.height / 2 + this.selectedShape.shape.y;
+                        this.selectedShape.updateSize(x2 - x1, y2 - y1);
+                        this.selectedShape.updatePosition((x2 - x1) / 2 + x1, (y2 - y1) / 2 + y1);
+                    } else if (this.selectedFinger.index === RectCorner.top_right) {
+                        const x2 = this.selectedShape.shape.x - this.selectedShape.shape.width / 2;
+                        const y2 = this.selectedShape.shape.height / 2 + this.selectedShape.shape.y;
+                        this.selectedShape.updateSize(x1 - x2, y2 - y1);
+                        this.selectedShape.updatePosition((x1 - x2) / 2 + x2, (y2 - y1) / 2 + y1);
+                    } else if (this.selectedFinger.index === RectCorner.bottom_left) {
+                        const x2 = this.selectedShape.shape.x + this.selectedShape.shape.width / 2;
+                        const y2 = this.selectedShape.shape.y - this.selectedShape.shape.height / 2;
+                        this.selectedShape.updateSize(x2 - x1, y1 - y2);
+                        this.selectedShape.updatePosition((x2 - x1) / 2 + x1, (y1 - y2) / 2 + y2);
+                    } else if (this.selectedFinger.index === RectCorner.bottom_right) {
+                        const x2 = this.selectedShape.shape.x - this.selectedShape.shape.width / 2;
+                        const y2 = this.selectedShape.shape.y - this.selectedShape.shape.height / 2;
+                        this.selectedShape.updateSize(x1 - x2, y1 - y2);
+                        this.selectedShape.updatePosition((x1 - x2) / 2 + x2, (y1 - y2) / 2 + y2);
                     }
                 }
             } else {
