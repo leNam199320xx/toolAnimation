@@ -6,3 +6,7 @@ body {
 * {
     box-sizing: border-box;
 }
+
+.block-events .item {
+    pointer-events: none;
+}

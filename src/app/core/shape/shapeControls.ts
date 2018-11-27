@@ -78,6 +78,8 @@ export class ShapeControls {
     updatePosition(_x: number, _y: number) {
         this.shape.x = _x || 0;
         this.shape.y = _y || 0;
+        this.shapeControl.point.x = this.shape.x;
+        this.shapeControl.point.y = this.shape.y;
     }
 
     updateLayoutForRect(_inx: number = null) {

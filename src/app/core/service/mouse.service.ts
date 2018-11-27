@@ -40,6 +40,7 @@ export class MouseService {
     }
 
     private mouseStart(_event: MouseEvent) {
+        _event.preventDefault();
         if (this.enabled) {
             this.started = true;
             if (this.isTemp) {
@@ -55,10 +56,12 @@ export class MouseService {
             this.startPoint.y = _event.offsetY;
             this.setPositionForFinger(_event.offsetX, _event.offsetY);
             // this.onStart.next(true);
+            this.svg.classList.add('block-events');
         }
     }
 
     private mouseMove(_event: MouseEvent) {
+        _event.preventDefault();
         if (this.started) {
             this.setPositionForFinger(_event.offsetX, _event.offsetY);
             // this.onMove.next(true);
@@ -66,11 +69,13 @@ export class MouseService {
     }
 
     private mouseEnd(_event: MouseEvent) {
+        _event.preventDefault();
         if (this.started) {
             this.setPositionForFinger(_event.offsetX, _event.offsetY);
             this.finishNow();
             this.onEnd.next(true);
         }
+        this.svg.classList.remove('block-events');
     }
 
     finishNow() {

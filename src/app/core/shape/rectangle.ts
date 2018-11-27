@@ -16,6 +16,7 @@ export class Rectangle extends AttributeSvg {
 
     Create() {
         this.element = document.createElementNS('http://www.w3.org/2000/svg', 'rect');
+        this.element.classList.add('item');
         this.updateLayout();
     }
 

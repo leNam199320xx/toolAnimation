@@ -15,6 +15,7 @@ export class Img extends Rectangle {
 
     Create() {
         this.element = document.createElementNS('http://www.w3.org/2000/svg', 'image');
+        this.element.classList.add('item');
         this.updateLayout();
     }
 }
