@@ -29,6 +29,11 @@ export class Finger {
         this.holdElement.updatePosition(this.point.x, this.point.y);
     }
     updateLayout() {
+        this.mapFingerAndElement();
         this.holdElement.updateLayout();
+    }
+    updatePosition(_x: number = 0, _y: number = 0) {
+        this.point.x = _x;
+        this.point.y = _y;
     }
 }

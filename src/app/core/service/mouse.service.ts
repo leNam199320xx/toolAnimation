@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Finger } from '../model/finger.model';
 import { BehaviorSubject } from 'rxjs';
+import { Point } from '../model/point.model';
 
 @Injectable()
 export class MouseService {
@@ -10,6 +11,7 @@ export class MouseService {
     enabled = false;
     started = false;
     isTemp = false;
+    startPoint = new Point();
     svg: SVGSVGElement;
     onStart: BehaviorSubject<boolean> = new BehaviorSubject(null);
     onMove: BehaviorSubject<boolean> = new BehaviorSubject(null);
@@ -31,6 +33,9 @@ export class MouseService {
         this.defaultFinger = new Finger();
         this.defaultFinger.enabled = true;
         this.defaultFinger.hiddenAfterMove = true;
+        this.defaultFinger.updatePosition(0, 0);
+        this.defaultFinger.mapFingerAndElement();
+        this.defaultFinger.updateLayout();
         this.currentFinger = this.defaultFinger;
     }
 
@@ -46,6 +51,8 @@ export class MouseService {
                 this.currentFinger.touched = true;
                 this.currentFinger.holdElement.show();
             }
+            this.startPoint.x = _event.offsetX;
+            this.startPoint.y = _event.offsetY;
             this.setPositionForFinger(_event.offsetX, _event.offsetY);
             // this.onStart.next(true);
         }
@@ -105,9 +112,16 @@ export class MouseService {
      */
     setPositionForFinger(_x = 0, _y = 0) {
         if (this.currentFinger) {
-            this.currentFinger.point.x = _x;
-            this.currentFinger.point.y = _y;
+            const disX = _x - this.startPoint.x;
+            const disY = _y - this.startPoint.y;
+            if (this.isTemp) {
+                this.currentFinger.updatePosition(this.currentFinger.point.x + disX, this.currentFinger.point.y + disY);
+            } else {
+                this.currentFinger.updatePosition(_x, _y);
+            }
             this.currentFinger.mapFingerAndElement();
+            this.startPoint.x = _x;
+            this.startPoint.y = _y;
         }
     }
 

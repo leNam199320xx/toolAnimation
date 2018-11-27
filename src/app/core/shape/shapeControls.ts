@@ -32,6 +32,8 @@ export class ShapeControls {
     private createControl() {
         this.shapeControl = new Finger();
         this.shapeControl.holdElement = this.shape;
+        this.shapeControl.point.x = this.shape.x;
+        this.shapeControl.point.y = this.shape.y;
     }
 
     createControlsForRect() {
@@ -55,17 +57,17 @@ export class ShapeControls {
         return this.controls;
     }
 
-    updateLayout(_inx = null) {
+    updateLayout() {
         if (this.mode === ShapeMode.Rect) {
-            this.updateLayoutForRect(_inx);
+            this.updateLayoutForRect();
         } else if (this.mode === ShapeMode.Circle) {
             this.updateLayoutForCircle();
         }
     }
 
     updateLayoutForCircle() {
-        this.controls[0].holdElement.updatePosition(this.shape.x, this.shape.y);
-        this.controls[0].holdElement.updateLayout();
+        this.controls[0].updatePosition(this.shape.x, this.shape.y);
+        this.controls[0].updateLayout();
     }
 
     updateSize(_width = 10, _height = 10) {
@@ -79,14 +81,14 @@ export class ShapeControls {
     }
 
     updateLayoutForRect(_inx: number = null) {
-        this.controls[0].holdElement.updatePosition(this.shape.x - this.shape.width / 2, this.shape.y - this.shape.height / 2);
-        this.controls[0].holdElement.updateLayout();
-        this.controls[1].holdElement.updatePosition(this.shape.x + this.shape.width / 2, this.shape.y - this.shape.height / 2);
-        this.controls[1].holdElement.updateLayout();
-        this.controls[2].holdElement.updatePosition(this.shape.x + this.shape.width / 2, this.shape.y + this.shape.height / 2);
-        this.controls[2].holdElement.updateLayout();
-        this.controls[3].holdElement.updatePosition(this.shape.x - this.shape.width / 2, this.shape.y + this.shape.height / 2);
-        this.controls[3].holdElement.updateLayout();
+        this.controls[0].updatePosition(this.shape.x - this.shape.width / 2, this.shape.y - this.shape.height / 2);
+        this.controls[0].updateLayout();
+        this.controls[1].updatePosition(this.shape.x + this.shape.width / 2, this.shape.y - this.shape.height / 2);
+        this.controls[1].updateLayout();
+        this.controls[2].updatePosition(this.shape.x + this.shape.width / 2, this.shape.y + this.shape.height / 2);
+        this.controls[2].updateLayout();
+        this.controls[3].updatePosition(this.shape.x - this.shape.width / 2, this.shape.y + this.shape.height / 2);
+        this.controls[3].updateLayout();
         this.shape.updateLayout();
     }
 
