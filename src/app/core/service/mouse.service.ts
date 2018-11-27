@@ -116,7 +116,8 @@ export class MouseService {
      * @param _y position from top
      */
     setPositionForFinger(_x = 0, _y = 0) {
-        if (this.currentFinger) {
+        if (this.currentFinger && this.enabled && this.started
+            && this.currentFinger.touched && this.currentFinger.enabled) {
             const disX = _x - this.startPoint.x;
             const disY = _y - this.startPoint.y;
             if (this.isTemp) {
@@ -137,14 +138,15 @@ export class MouseService {
     showFinger() {
         if (this.enabled && this.started
             && this.currentFinger.touched && this.currentFinger.enabled) {
-            this.currentFinger.holdElement.updateLayout();
-            this.onMove.next(true);
+            this.currentFinger.updateLayout();
+            // this.onMove.next(true);
         }
     }
 
     setFingerToDrag(_fin: Finger) {
         this.tempFinger = _fin;
         this.tempFinger.enabled = true;
+        this.tempFinger.holdElement.show();
         this.isTemp = true;
     }
 }

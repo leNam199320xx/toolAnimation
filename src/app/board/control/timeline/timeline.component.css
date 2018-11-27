@@ -4,15 +4,13 @@
     background-color: #777777;
     padding: 2px;
 }
-
-.frame {}
-
 .key {
     padding: 2px;
     display: inline-block;
     border: 2px solid #999999;
     background: #BBBBBB;
     width: 16px;
+    position: relative;
 }
 
 .key.back {
@@ -40,4 +38,10 @@
     border-width: 2px;
     border-color: red;
     color: red;
+}
+
+.key .options-box{
+    position: absolute;
+    left: 0;
+    bottom: 0;
 }

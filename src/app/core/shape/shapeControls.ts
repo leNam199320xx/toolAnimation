@@ -23,7 +23,7 @@ export class ShapeControls {
         _cir.stroke = 'red';
         _cir.strokeWidth = 2;
         _cir.r = 10;
-        _cir.show();
+        _cir.hide();
         _fin.holdElement = _cir;
         _fin.type = FingerType.control;
         return _fin;

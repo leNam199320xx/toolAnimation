@@ -36,7 +36,13 @@ export class ViewerComponent implements OnInit, AfterViewInit {
         });
         this.shapeService.onSelectFinger.subscribe(res => {
             if (res) {
-                this.mouseService.setFingerToDrag(res);
+                if (this.mouseService.enabled) {
+                    this.mouseService.setFingerToDrag(res);
+                    this.shapeService.showAll();
+                } else {
+                    this.shapeService.resetAll();
+
+                }
             }
         });
     }
@@ -46,7 +52,6 @@ export class ViewerComponent implements OnInit, AfterViewInit {
         this.svg.setAttribute('height', this.sizeBox.height.toString());
         this.svg.setAttribute('width', this.sizeBox.width.toString());
         this.mouseService.setup(this.svg);
-        this.mouseService.enabled = true;
         this.shapeService.svg = this.svg;
         this.shapeService.startX = this.controlService.sizeBox.width / 2;
         this.shapeService.startY = this.controlService.sizeBox.height / 2;

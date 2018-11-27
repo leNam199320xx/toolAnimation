@@ -87,10 +87,21 @@ export class ShapeService {
 
     deleteShape() { }
 
-    resetAll() { }
+    resetAll() {
+        this.selectedShape = null;
+        this.selectedFinger = null;
+        this.onSelectFinger.next(null);
+        this.onSelectShape.next(null);
+    }
 
     updateControl() {
 
+    }
+
+    showAll() {
+        this.selectedShape.controls.forEach(res => {
+            res.holdElement.show();
+        });
     }
 
     private createControls(_item: Rectangle | Circle | Img) {

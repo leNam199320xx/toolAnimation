@@ -15,11 +15,20 @@ export class TimelineComponent implements OnInit {
     ngOnInit() {
     }
 
-    btnKey(_frame: Frame) {
+    btnKey(_event: MouseEvent, _frame: Frame) {
+        if (_event.which === 2) {
+            _event.preventDefault();
+        }
         if (this.controlService.isRunning) {
             this.controlService.setKeyWhenRunning(_frame.index);
         } else {
             this.controlService.setKey(_frame.index);
         }
+        console.log(_event, _frame);
+    }
+
+    mouseRight(_event: MouseEvent) {
+        console.log(1);
+        _event.preventDefault();
     }
 }
