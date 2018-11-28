@@ -5,6 +5,7 @@ import { Video } from '../model/video.model';
 import { BehaviorSubject, Subject } from 'rxjs';
 import { Timer } from '../model/timer.model';
 import { NodeModel } from '../model/node.model';
+import { Grid } from '../model/grid.model';
 
 @Injectable()
 export class ControlService {
@@ -12,8 +13,9 @@ export class ControlService {
     sizeBox = new Box();
     video = new Video();
     timer = new Timer();
+    grid = new Grid();
     keyframes: Frame[] = [];
-    currentKey: Frame = new Frame();
+    currentKey = new Frame();
     index = -1;
     oldIndex = -1;
     isRunning = false;

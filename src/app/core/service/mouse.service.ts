@@ -33,6 +33,8 @@ export class MouseService {
         this.createDefaultFinger();
         this.svg.appendChild(this.currentFinger.holdElement.element);
         this.grid.svg = this.svg;
+        this.grid.height = this.height;
+        this.grid.width = this.width;
         this.openGrid();
     }
 
@@ -88,7 +90,7 @@ export class MouseService {
     openGrid() {
         this.enabledGrid = !this.enabledGrid;
         if (this.enabledGrid) {
-            this.grid.calculate(100, this.height, this.width);
+            this.grid.calculate();
         }
     }
 

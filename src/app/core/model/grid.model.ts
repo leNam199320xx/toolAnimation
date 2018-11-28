@@ -1,20 +1,19 @@
 import { Circle } from '../shape/circle';
 
 export class Grid {
-    size: number;
+    size = 10;
     height: number;
     width: number;
     points: Circle[] = [];
     counts: number[] = [];
     count = 0;
     svg: SVGSVGElement;
-    calculate(_size = this.size || 0,
-        _height = this.height || 0,
-        _width = this.width || 0) {
-        this.height = _height;
-        this.width = _width;
-        this.size = _size;
-        this.counts = [Math.ceil(_width / _size) + 1 || 0, Math.ceil(_height / _size) + 1 || 0];
+    minSize = 10;
+    maxSize = 50;
+    calculate() {
+        this.size = this.size < this.minSize ? this.minSize
+            : (this.size > this.maxSize ? this.maxSize : this.size);
+        this.counts = [Math.ceil(this.width / this.size) + 1 || 0, Math.ceil(this.height / this.size) + 1 || 0];
         this.points.forEach(_cir => {
             _cir.remove();
         });
