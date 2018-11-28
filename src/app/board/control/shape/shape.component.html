@@ -1,8 +1,25 @@
 <div *ngIf="shapeControls">
-    <h4><label>Name</label><input [(ngModel)]="shapeControls.shape.name" /></h4>
-    <h4><label>X</label><input [(ngModel)]="shapeControls.shape.x" /></h4>
-    <h4><label>Y</label><input [(ngModel)]="shapeControls.shape.y" /></h4>
-    <h4><label>Width</label> <input [(ngModel)]="shapeControls.shape.width" /></h4>
-    <h4><label>Height</label><input [(ngModel)]="shapeControls.shape.height" /></h4>
-    <h4><label>Opacity</label><input [(ngModel)]="shapeControls.shape.opacity" /></h4>
+    <h4>
+        <label>Name</label>
+        <input type="text" [(ngModel)]="shapeControls.shape.name" (change)='change()' />
+    </h4>
+    <h4>
+        <label>X</label>
+        <input type="number" [(ngModel)]="shapeControls.shape.x" (change)='change()' /></h4>
+    <h4>
+        <label>Y</label>
+        <input type="number" [(ngModel)]="shapeControls.shape.y" (change)='change()' />
+    </h4>
+    <h4>
+        <label>Width</label>
+        <input type="number" [(ngModel)]="shapeControls.shape.width" (change)='change()' />
+    </h4>
+    <h4>
+        <label>Height</label>
+        <input type="number" [(ngModel)]="shapeControls.shape.height" (change)='change()' />
+    </h4>
+    <h4>
+        <label>Opacity</label>
+        <input type="number" [(ngModel)]="shapeControls.shape.opacity" (change)='change()' />
+    </h4>
 </div>

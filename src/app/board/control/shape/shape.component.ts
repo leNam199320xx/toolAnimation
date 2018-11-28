@@ -26,4 +26,8 @@ export class ShapeComponent {
             }
         });
     }
+
+    change() {
+        this.shapeControls.updateLayout();
+    }
 }

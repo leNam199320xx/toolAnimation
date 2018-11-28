@@ -1,7 +1,5 @@
 import { NodeModel } from '../model/node.model';
 import { Finger } from '../model/finger.model';
-import { Circle } from './circle';
-
 export class AttributeSvg {
     x: number;
     y: number;
@@ -61,5 +59,9 @@ export class AttributeSvg {
 
     show() {
         this.element.style.visibility = 'visible';
+    }
+
+    remove() {
+        this.element.parentElement.removeChild(this.element);
     }
 }

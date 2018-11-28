@@ -24,11 +24,11 @@ export class TimelineComponent implements OnInit {
         } else {
             this.controlService.setKey(_frame.index);
         }
-        console.log(_event, _frame);
+        // console.log(_event, _frame);
     }
 
     mouseRight(_event: MouseEvent) {
-        console.log(1);
+        // console.log(1);
         _event.preventDefault();
     }
 }

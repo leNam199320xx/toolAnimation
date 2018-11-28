@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { Finger } from '../model/finger.model';
 import { BehaviorSubject } from 'rxjs';
 import { Point } from '../model/point.model';
+import { Grid } from '../model/grid.model';
 
 @Injectable()
 export class MouseService {
@@ -9,10 +10,14 @@ export class MouseService {
     defaultFinger: Finger;
     tempFinger: Finger;
     enabled = false;
+    enabledGrid = false;
     started = false;
     isTemp = false;
     startPoint = new Point();
+    height: number;
+    width: number;
     svg: SVGSVGElement;
+    grid = new Grid();
     onStart: BehaviorSubject<boolean> = new BehaviorSubject(null);
     onMove: BehaviorSubject<boolean> = new BehaviorSubject(null);
     onEnd: BehaviorSubject<boolean> = new BehaviorSubject(null);
@@ -27,6 +32,8 @@ export class MouseService {
         this.svg.onmouseup = this.mouseEnd.bind(this);
         this.createDefaultFinger();
         this.svg.appendChild(this.currentFinger.holdElement.element);
+        this.grid.svg = this.svg;
+        this.openGrid();
     }
 
     private createDefaultFinger() {
@@ -76,6 +83,13 @@ export class MouseService {
             this.onEnd.next(true);
         }
         this.svg.classList.remove('block-events');
+    }
+
+    openGrid() {
+        this.enabledGrid = !this.enabledGrid;
+        if (this.enabledGrid) {
+            this.grid.calculate(100, this.height, this.width);
+        }
     }
 
     finishNow() {

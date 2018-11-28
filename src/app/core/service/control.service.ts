@@ -30,6 +30,8 @@ export class ControlService {
 
     settingVideo() {
         this.keyframes = [];
+        this.sizeBox.height = this.sizeBox.height || 0;
+        this.sizeBox.width = this.sizeBox.width || 0;
         this.video.height = this.sizeBox.height;
         this.video.width = this.sizeBox.width;
         this.video.setting();

@@ -51,6 +51,8 @@ export class ViewerComponent implements OnInit, AfterViewInit {
         this.svg = this.viewBoxSvg.nativeElement;
         this.svg.setAttribute('height', this.sizeBox.height.toString());
         this.svg.setAttribute('width', this.sizeBox.width.toString());
+        this.mouseService.height = this.controlService.sizeBox.height;
+        this.mouseService.width = this.controlService.sizeBox.width;
         this.mouseService.setup(this.svg);
         this.shapeService.svg = this.svg;
         this.shapeService.startX = this.controlService.sizeBox.width / 2;
