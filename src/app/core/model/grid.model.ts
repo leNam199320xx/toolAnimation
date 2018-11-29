@@ -14,15 +14,12 @@ export class Grid {
         this.size = this.size < this.minSize ? this.minSize
             : (this.size > this.maxSize ? this.maxSize : this.size);
         this.counts = [Math.ceil(this.width / this.size) + 1 || 0, Math.ceil(this.height / this.size) + 1 || 0];
-        this.points.forEach(_cir => {
-            _cir.remove();
-        });
-        this.points = [];
+        this.clear();
         for (let i = 0; i < this.counts[0]; i++) {
             for (let j = 0; j < this.counts[1]; j++) {
                 this.count++;
                 const _cir = new Circle();
-                _cir.r = 2;
+                _cir.r = 1;
                 _cir.strokeWidth = 0;
                 _cir.opacity = 0.5;
                 _cir.backgroundColor = 'blue';
@@ -32,5 +29,12 @@ export class Grid {
                 this.points.push(_cir);
             }
         }
+    }
+
+    clear() {
+        this.points.forEach(_cir => {
+            _cir.remove();
+        });
+        this.points = [];
     }
 }

@@ -17,9 +17,15 @@ export class SettingComponent {
 
   change(_event: KeyboardEvent) {
     if (_event && _event.keyCode === 13) {
-      this.mouseService.grid.calculate();
+      this.mouseService.openGrid();
     }
 
     this.controlService.settingVideo();
+  }
+
+  openGrid(_event: Event) {
+    if (_event.returnValue) {
+      this.mouseService.openGrid();
+    }
   }
 }

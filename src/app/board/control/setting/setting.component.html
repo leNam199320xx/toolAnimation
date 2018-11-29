@@ -16,8 +16,10 @@
     <input type="number" min="0" [(ngModel)]="controlService.sizeBox.width" (input)="change()" />
   </div>
   <div>
-      <label>grid size: </label>
-      <input type="number" min="{{mouseService.grid.minSize}}" max="{{mouseService.grid.maxSize}}" [(ngModel)]="mouseService.grid.size" (keypress)='change($event)' />
-    </div>
+    <label>grid size: </label>
+    <input type="number" min="{{mouseService.grid.minSize}}" max="{{mouseService.grid.maxSize}}" [(ngModel)]="mouseService.grid.size"
+      (keypress)='change($event)' />
+    <input [(ngModel)]="mouseService.enabledGrid" type="checkbox" (change)="openGrid($event)">
+  </div>
   <button (click)="btnLoad()">Load</button>
 </div>
