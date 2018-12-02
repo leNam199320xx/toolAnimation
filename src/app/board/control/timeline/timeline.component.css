@@ -12,6 +12,10 @@
     width: 16px;
     position: relative;
 }
+.key-animation {
+    color: red;
+    background: whitesmoke;
+}
 
 .key.back {
     position: relative;

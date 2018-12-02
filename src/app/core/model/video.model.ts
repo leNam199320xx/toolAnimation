@@ -21,5 +21,7 @@ export class Video {
         } else {
             this.isPlay = false;
         }
+
+        return this.currentFrame;
     }
 }

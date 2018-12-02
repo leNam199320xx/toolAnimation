@@ -10,3 +10,17 @@ body {
 .block-events .item {
     pointer-events: none;
 }
+
+button {
+    background: whitesmoke;
+    border: solid 2px steelblue;
+    border-radius: 4px;
+    padding: 0.25em;
+}
+
+.panel {
+    background: whitesmoke;
+    border-radius: 4px;
+    border: solid 2px steelblue;
+    padding: 10px;
+}

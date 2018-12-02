@@ -1,14 +1,20 @@
 <div class="control">
-  <app-timeline></app-timeline>
-  <div class="list-controls">
+  <app-timeline [isKeyFrame]="attrBtnKeyFrame.isActive"></app-timeline>
+  <div class="list-controls panel">
     <button (click)="btnPlay()">Play/Pause</button>
     <button (click)="btnStop()">Stop</button>
     <button>Mute</button>
     <button (click)="btnBack()">Back</button>
     <button (click)="btnNext()">Next</button>
-    <button (click)="btnEdit()">Open Dev Mode</button>
+    <button [ngClass]="{'active': attrBtnDevMode.isActive}" (click)="btnDevMode()">Open Dev Mode</button>
   </div>
-  <div class='settings'>
+  <div class="panel dev-panel" *ngIf="attrBtnDevMode.isActive">
+    <button [ngClass]="{'active': attrBtnKeyFrame.isActive}" (click)="btnKeyFrame()">Key frame</button>
+    <input type="number" [(ngModel)]="duration"/>
+    <button (click)="btnKeyNow()">Key</button>
+    <button (click)="btnRemoveKey()">Remove key</button>
+  </div>
+  <div class='settings panel'>
     <div class='setting-col'>
       <app-setting></app-setting>
     </div>

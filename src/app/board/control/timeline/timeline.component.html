@@ -3,7 +3,7 @@
     <!-- <div class="key back" (click)="btnBack()">..</div> -->
     <div class="key-container" [ngStyle]="{'width': (controlService.video.frameCount * 16) + 'px'}">
       <ng-container *ngFor="let k of controlService.keyframes">
-        <div class="key" [ngClass]="{'active': k.active}" (click)="btnKey($event, k)" (contextmenu)="mouseRight($event)">+
+        <div class="key" [ngClass]="{'active': k.active, 'key-animation': loadKey(k)}" (click)="btnKey($event, k)" (contextmenu)="mouseRight($event)">+
           <!-- <div class="options-box">
             <button>1</button>
             <button>2</button>

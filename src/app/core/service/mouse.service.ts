@@ -9,7 +9,7 @@ export class MouseService {
     currentFinger: Finger;
     defaultFinger: Finger;
     tempFinger: Finger;
-    enabled = false;
+    enabled = true;
     enabledGrid = false;
     started = false;
     isTemp = false;
@@ -109,7 +109,6 @@ export class MouseService {
      * start mouse event
      */
     start() {
-        this.enabled = true;
         if (!this.currentFinger) {
             this.currentFinger = this.defaultFinger;
         }
@@ -118,7 +117,6 @@ export class MouseService {
      * Stop now
      */
     stop() {
-        this.enabled = false;
         this.started = false;
         this.currentFinger.enabled = false;
         this.currentFinger.touched = false;

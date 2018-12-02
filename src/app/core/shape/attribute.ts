@@ -6,9 +6,9 @@ export class AttributeSvg {
     r: number;
     d: number;
     name: string;
-    scale: number | string;
-    skew: number | string;
-    deg: number; // rotate value
+    scale: number;
+    skew: number;
+    rotate: number; // rotate value
     src: string;
     opacity: number;
     height: number;
@@ -25,6 +25,7 @@ export class AttributeSvg {
 
     fingers: Finger[] = [];
     minSize = [10, 10];
+    framePosition: number;
 
     updatePosition(_x: number, _y: number) {
         this.x = _x || 0;
@@ -38,7 +39,7 @@ export class AttributeSvg {
 
     setTransform() {
         const _translateNode = new NodeModel('translate', this.x + ' ' + this.y);
-        const _rotateNode = new NodeModel('rotate', this.deg);
+        const _rotateNode = new NodeModel('rotate', this.rotate);
         const _scaleNode = new NodeModel('scale', this.scale);
         // const _skewNode = new NodeModel('skew', this.skew);
         const x2 = -this.width / 2;

@@ -1,5 +1,0 @@
-export class AnimationService {
-    calculate() {
-
-    }
-}
