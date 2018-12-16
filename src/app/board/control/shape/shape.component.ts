@@ -1,7 +1,4 @@
-import { Component, OnInit } from '@angular/core';
-import { Rectangle } from 'src/app/core/shape/rectangle';
-import { Circle } from 'src/app/core/shape/circle';
-import { Img } from 'src/app/core/shape/img';
+import { Component } from '@angular/core';
 import { ControlService } from 'src/app/core/service/control.service';
 import { ControlContinueService } from 'src/app/core/service/controlContinue.service';
 import { ShapeService } from 'src/app/core/service/shape.service';

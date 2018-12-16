@@ -37,3 +37,8 @@ testem.log
 # System Files
 .DS_Store
 Thumbs.db
+.vs/config/applicationhost.config
+.vs/ProjectSettings.json
+.vs/slnx.sqlite
+.vs/toolAnimation/v16/.suo
+.vs/VSWorkspaceState.json

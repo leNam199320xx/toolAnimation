@@ -106,7 +106,6 @@ export class ShapeService {
     deleteShape() { }
 
     resetAll() {
-        console.log('reset all');
         this.selectedShape = null;
         this.selectedFinger = null;
         this.onSelectFinger.next(null);

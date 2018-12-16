@@ -70,12 +70,11 @@ export class ControlComponent implements OnInit {
 
     }
 
-    setAnimation(_startFrame, _endFrame) {
+    private setAnimation(_startFrame, _endFrame) {
         if (this.attrBtnKeyFrame.isActive) {
             const _startPoint = this.shapeService.mapAnimationPointWithShape(this.shapeService.selectedShape.shape);
             const _endPoint = this.shapeService.mapAnimationPointWithShape(this.shapeService.selectedShape.shape);
             this.shapeService.calculateAnimation(_startPoint, _endPoint, _startFrame, _endFrame);
-            console.log(this.shapeService.animationShapes);
         }
     }
 

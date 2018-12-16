@@ -10,7 +10,7 @@
   </div>
   <div class="panel dev-panel" *ngIf="attrBtnDevMode.isActive">
     <button [ngClass]="{'active': attrBtnKeyFrame.isActive}" (click)="btnKeyFrame()">Key frame</button>
-    <input type="number" [(ngModel)]="duration"/>
+    <input type="number" [(ngModel)]="duration" />
     <button (click)="btnKeyNow()">Key</button>
     <button (click)="btnRemoveKey()">Remove key</button>
   </div>
